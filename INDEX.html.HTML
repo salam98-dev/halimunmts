@@ -1,0 +1,386 @@
+<!--
+  E-Learning MTs Halimun - Single-file HTML template (Rewritten to fix JS errors)
+  - Cleaned up duplicate declarations and syntax errors
+  - Single demoAccounts declaration (only once)
+  - Auth pages and demo data integrated safely
+  - How to use: save as index.html and open in browser. Replace placeholder images and integrate backend endpoints.
+-->
+
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>E-Learning | MTs Halimun</title>
+  <meta name="description" content="E-Learning MTs Halimun — Modern, Elegan, Islami">
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <style>
+    :root{
+      --bg-grad-1: #0f172a;
+      --accent-1: #0ea5a6;
+      --accent-2: #06b6d4;
+      --accent-3: #f59e0b;
+      --soft-white: #f8fafc;
+      --glass: rgba(255,255,255,0.06);
+      --radius: 14px;
+      --maxwid: 1200px;
+      --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:var(--font-sans);color:var(--soft-white);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:linear-gradient(120deg,var(--accent-2) 0%, var(--accent-1) 40%, #0ea5a6 60%, #071330 100%);min-height:100vh;padding:32px 20px}
+    .container{max-width:var(--maxwid);margin:0 auto}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent-1),var(--accent-3));display:flex;align-items:center;justify-content:center;font-weight:700;color:#061124;box-shadow:0 6px 18px rgba(2,6,23,0.35)}
+    nav ul{display:flex;gap:14px;list-style:none;margin:0;padding:0}
+    nav a{color:var(--soft-white);text-decoration:none;padding:10px 12px;border-radius:10px;font-weight:600}
+    nav a:hover{background:rgba(255,255,255,0.06)}
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-bottom:28px}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));border-radius:var(--radius);padding:28px;box-shadow:0 8px 30px rgba(2,6,23,0.35)}
+    .cta-row{display:flex;gap:12px}
+    .btn{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border:none;padding:10px 14px;border-radius:10px;color:#061124;font-weight:700;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:var(--soft-white)}
+    .hero-visual{border-radius:var(--radius);overflow:hidden;position:relative;height:100%;min-height:260px}
+    .hero-visual img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.9) saturate(1.05)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+    .card{background:var(--glass);padding:16px;border-radius:12px}
+    .small{font-size:13px;opacity:0.9}
+    .classes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+    .class-card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:12px;border-radius:12px;min-height:120px}
+    .widgets{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-top:18px}
+    .progress{height:12px;background:#072130;border-radius:8px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent-3))}
+    footer{margin-top:28px;opacity:0.95}
+    @media (max-width:1100px){.hero{grid-template-columns:1fr 340px}.grid{grid-template-columns:repeat(2,1fr)}.classes{grid-template-columns:repeat(3,1fr)}.widgets{grid-template-columns:1fr}}
+    @media (max-width:720px){body{padding:20px}.hero{grid-template-columns:1fr;}nav ul{display:none}header{gap:12px}.classes{grid-template-columns:repeat(2,1fr)}}
+    .muted{opacity:0.8;font-size:13px}.chip{display:inline-block;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700}
+    .modal{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;z-index:80}
+    .modal .panel{background:linear-gradient(180deg,#071331,rgba(255,255,255,0.02));padding:18px;border-radius:12px;width:420px}
+    input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);background:transparent;color:var(--soft-white)}
+    table{width:100%;border-collapse:collapse}th,td{padding:10px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.03)}
+    .fade-in{animation:fadeIn .6s ease both}@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">MH</div>
+        <div>
+          <h1>MTs Halimun</h1>
+          <div class="muted">E-Learning Platform</div>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">Beranda</a></li>
+          <li><a href="#profil">Profil</a></li>
+          <li><a href="#kelas">Kelas Online</a></li>
+          <li><a href="#materi">Materi</a></li>
+          <li><a href="#tugas">Tugas</a></li>
+          <li><a href="#pengumuman">Pengumuman</a></li>
+          <li><a href="#" id="openLogin">Masuk</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="hero-card fade-in">
+        <h2>Belajar Mudah, Modern, dan Berkarakter Islami</h2>
+        <p>Platform E-Learning resmi MTs Halimun — kelas online, materi, tugas, ujian, dan laporan nilai dalam satu tempat yang aman dan responsif.</p>
+        <div class="cta-row">
+          <button class="btn" id="ctaEnter">Masuk E-Learning</button>
+          <button class="btn ghost" id="ctaRegister">Daftar Akun</button>
+        </div>
+
+        <div class="grid" style="margin-top:18px">
+          <div class="card"><h4>Kelas Aktif</h4><div class="small">12 kelas tersedia — SDM, Agama, Matematika, IPA, Bahasa</div></div>
+          <div class="card"><h4>Ujian Online</h4><div class="small">CBT siap pakai: PG & Essay — pengawasan dasar timer & random</div></div>
+          <div class="card"><h4>Forum Diskusi</h4><div class="small">Diskusi kelas, bertanya langsung ke guru, dan berbagi materi.</div></div>
+        </div>
+
+        <div class="widgets">
+          <div class="card">
+            <h4>Progress Belajar Anda</h4>
+            <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+              <div style="flex:1">
+                <div class="small">Ketercapaian Materi</div>
+                <div class="progress" style="margin-top:8px"><i style="width:62%"></i></div>
+                <div class="muted" style="margin-top:8px">62% selesai — target mingguan: 80%</div>
+              </div>
+              <div style="width:180px"><div class="small">Tugas Tertunda</div><div style="font-size:28px;font-weight:800;margin-top:6px">3</div></div>
+            </div>
+          </div>
+
+          <div class="card"><h4>Kalender Akademik</h4><div class="small" style="margin-top:8px">- UTS: 15 Des 2025<br>- UAS: 28 Feb 2026</div><div style="margin-top:12px"><button class="btn ghost">Lihat Kalender</button></div></div>
+        </div>
+
+      </div>
+
+      <aside class="hero-visual fade-in">
+        <img src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=7a7f6a6f0f6b8b3d5c9f55f2d9e7b1bf" alt="Pendidikan Islami">
+        <div class="overlay"><h3>Belajar dengan nilai & karakter Islam</h3></div>
+      </aside>
+    </section>
+
+    <!-- KELAS -->
+    <section id="kelas">
+      <h3 style="margin:0 0 12px 0">Kelas Online</h3>
+      <div class="classes">
+        <div class="class-card"><h5>Matematika - Kelas 7</h5><div class="muted">Guru: Ust. Ahmad</div><div style="margin-top:12px" class="chip">20 Materi</div></div>
+        <div class="class-card"><h5>Bahasa Indonesia - Kelas 8</h5><div class="muted">Guru: Ibu Siti</div><div style="margin-top:12px" class="chip">17 Materi</div></div>
+        <div class="class-card"><h5>Pendidikan Agama Islam - Kelas 7</h5><div class="muted">Guru: Ust. Rahmat</div><div style="margin-top:12px" class="chip">25 Materi</div></div>
+        <div class="class-card"><h5>IPA - Kelas 9</h5><div class="muted">Guru: Ibu Lina</div><div style="margin-top:12px" class="chip">14 Materi</div></div>
+      </div>
+    </section>
+
+    <!-- MATERI -->
+    <section id="materi" style="margin-top:18px"><h3>Materi Terbaru</h3>
+      <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+        <div class="card" style="flex:1;min-width:260px"><h4>Konsep Bilangan - PDF</h4><div class="small">Matematika • 12 halaman • 2 MB</div><div style="margin-top:12px"><button class="btn ghost">Pratinjau</button></div></div>
+        <div class="card" style="flex:1;min-width:260px"><h4>Sejarah Peradaban Islam - Video</h4><div class="small">PAI • 25 menit • YouTube</div><div style="margin-top:12px"><button class="btn ghost">Tonton</button></div></div>
+        <div class="card" style="flex:1;min-width:260px"><h4>Percobaan Sederhana IPA - PPT</h4><div class="small">IPA • 18 slide • 3 MB</div><div style="margin-top:12px"><button class="btn ghost">Unduh</button></div></div>
+      </div>
+    </section>
+
+    <!-- TUGAS -->
+    <section id="tugas" style="margin-top:18px"><h3>Tugas Terbaru</h3>
+      <table style="margin-top:12px"><thead><tr><th>Mata Pelajaran</th><th>Tugas</th><th>Batas Waktu</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Matematika</td><td>Latihan Soal Bilangan</td><td>25 Nov 2025</td><td style="color:#ffcc00">Mendekati</td></tr>
+        <tr><td>PAI</td><td>Ringkasan Tafsir Surah Al-Baqarah</td><td>01 Des 2025</td><td style="color:#22c55e">Terkumpul</td></tr>
+        <tr><td>IPA</td><td>Laporan Praktikum</td><td>20 Nov 2025</td><td style="color:#ef4444">Terlambat</td></tr>
+      </tbody></table>
+    </section>
+
+    <!-- PENGUMUMAN -->
+    <section id="pengumuman" style="margin-top:18px"><h3>Pengumuman</h3>
+      <div class="card" style="margin-top:12px"><h4>Pengumuman Penting</h4><div class="small">Hari libur bersama: 24 Desember 2025</div></div>
+    </section>
+
+    <!-- PROFIL -->
+    <section id="profil" style="margin-top:18px"><h3>Profil Sekolah</h3>
+      <div class="card" style="margin-top:12px"><h4>Sejarah Singkat</h4><p class="small" style="margin-top:8px">MTs Halimun didirikan dengan visi menghasilkan generasi berakhlak dan berprestasi...</p></div>
+    </section>
+
+    <footer><div class="muted">© MTs Halimun — E-Learning 2025. Dibuat untuk demo & pengembangan lebih lanjut.</div></footer>
+
+    <!-- ADMIN DASHBOARD -->
+    <section id="admin" style="margin-top:40px">
+      <h2 style="margin-bottom:20px">Dashboard Admin Guru & Siswa</h2>
+      <div class="card" style="margin-bottom:20px"><h3>Panel Guru</h3>
+        <ul class="small" style="line-height:1.8; margin-top:10px"><li>➤ Kelola Kelas</li><li>➤ Upload & Manajemen Materi</li><li>➤ Kelola Tugas & Penilaian</li><li>➤ Upload Soal Ujian CBT</li><li>➤ Lihat Progress Belajar Siswa</li><li>➤ Rekap Nilai & Export</li></ul>
+      </div>
+      <div class="card"><h3>Panel Siswa</h3>
+        <ul class="small" style="line-height:1.8; margin-top:10px"><li>➤ Lihat Kelas yang Diikuti</li><li>➤ Akses Materi Pelajaran</li><li>➤ Kumpulkan Tugas</li><li>➤ Ikuti Ujian Online (CBT)</li><li>➤ Lihat Nilai dan Raport Online</li><li>➤ Forum Diskusi & Pengumuman</li></ul>
+      </div>
+    </section>
+
+    <!-- ADMIN LAYOUT FULL -->
+    <section id="admin-full" style="margin-top:60px">
+      <h2 style="margin-bottom:20px">Admin Panel Lengkap</h2>
+      <div style="display:flex;gap:20px">
+        <aside style="width:240px;background:rgba(255,255,255,0.06);padding:18px;border-radius:12px;height:auto">
+          <h3>Menu Admin</h3>
+          <ul class="small" style="line-height:1.9;margin-top:12px"><li>🏠 Dashboard</li><li>👨‍🏫 Kelola Guru</li><li>👨‍🎓 Kelola Siswa</li><li>🏫 Kelola Kelas</li><li>📚 Kelola Mapel</li><li>📄 Materi Pelajaran</li><li>📝 Tugas & Penilaian</li><li>🧪 Soal & Ujian CBT</li><li>📊 Rekap Nilai</li><li>📢 Pengumuman</li></ul>
+        </aside>
+        <div style="flex:1">
+          <div class="card" style="margin-bottom:20px"><h3>Dashboard Akademik</h3><p class="small">Statistik cepat sistem akademik MTs Halimun:</p>
+            <div class="grid" style="margin-top:18px"><div class="card"><h4>Jumlah Siswa</h4><div class="small">310 siswa aktif</div></div><div class="card"><h4>Jumlah Guru</h4><div class="small">34 guru aktif</div></div><div class="card"><h4>Total Kelas</h4><div class="small">18 kelas berjalan</div></div></div>
+          </div>
+          <div class="card" style="margin-bottom:20px"><h3>Kelola Data Akademik</h3><p class="small">Form manajemen entitas sekolah (demo tampilan).</p>
+            <table style="margin-top:12px"><thead><tr><th>Jenis Data</th><th>Aksi</th></tr></thead><tbody><tr><td>Data Guru</td><td><button class="btn ghost">Kelola</button></td></tr><tr><td>Data Siswa</td><td><button class="btn ghost">Kelola</button></td></tr><tr><td>Data Kelas</td><td><button class="btn ghost">Kelola</button></td></tr><tr><td>Data Mapel</td><td><button class="btn ghost">Kelola</button></td></tr></tbody></table>
+          </div>
+          <div class="card"><h3>Input Nilai / Rekap Ujian</h3>
+            <table style="margin-top:12px"><thead><tr><th>Siswa</th><th>Mapel</th><th>Nilai</th><th>Aksi</th></tr></thead><tbody><tr><td>Aisyah</td><td>Matematika</td><td><input style="width:80px" placeholder="0-100" /></td><td><button class="btn ghost">Simpan</button></td></tr><tr><td>Rizki</td><td>IPA</td><td><input style="width:80px" placeholder="0-100" /></td><td><button class="btn ghost">Simpan</button></td></tr></tbody></table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMS & MANAGEMENT SECTIONS (Input Guru / Siswa / Kelas / Jadwal / Bank Soal) -->
+    <section id="input-guru" style="margin-top:40px"><h2>Form Input Guru</h2>
+      <div class="card" style="margin-top:12px">
+        <form id="formGuru" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div><label class="small">Nama Lengkap</label><input id="guruNama" placeholder="Nama Guru" /></div>
+          <div><label class="small">NIP / ID Guru</label><input id="guruNip" placeholder="12345" /></div>
+          <div><label class="small">Email</label><input id="guruEmail" placeholder="guru@mts.halimun" /></div>
+          <div><label class="small">Mata Pelajaran</label><input id="guruMapel" placeholder="Contoh: Matematika" /></div>
+          <div style="grid-column:1/3;display:flex;gap:8px;justify-content:flex-end;margin-top:6px"><button type="button" class="btn" onclick="tambahGuru()">Simpan Guru</button><button type="button" class="btn ghost" onclick="batalFormGuru()">Batal</button></div>
+        </form>
+        <div style="margin-top:18px"><h4>Daftar Guru (Demo)</h4><table id="tableGuru"><thead><tr><th>Nama</th><th>ID</th><th>Mapel</th><th>Aksi</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="input-siswa" style="margin-top:40px"><h2>Form Input Siswa</h2>
+      <div class="card" style="margin-top:12px">
+        <form id="formSiswa" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div><label class="small">Nama Siswa</label><input id="siswaNama" placeholder="Nama Siswa" /></div>
+          <div><label class="small">NIS</label><input id="siswaNis" placeholder="2025xxxxx" /></div>
+          <div><label class="small">Kelas</label><select id="siswaKelas"><option value="7">7</option><option value="8">8</option><option value="9">9</option></select></div>
+          <div><label class="small">Email</label><input id="siswaEmail" placeholder="siswa@domain" /></div>
+          <div style="grid-column:1/3;display:flex;gap:8px;justify-content:flex-end;margin-top:6px"><button type="button" class="btn" onclick="tambahSiswa()">Simpan Siswa</button><button type="button" class="btn ghost" onclick="batalFormSiswa()">Batal</button></div>
+        </form>
+        <div style="margin-top:18px"><h4>Daftar Siswa (Demo)</h4><table id="tableSiswa"><thead><tr><th>Nama</th><th>NIS</th><th>Kelas</th><th>Aksi</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="manajemen-kelas" style="margin-top:40px"><h2>Manajemen Kelas (CRUD)</h2>
+      <div class="card" style="margin-top:12px">
+        <div style="display:flex;gap:12px;align-items:center;justify-content:space-between">
+          <div style="display:flex;gap:8px;align-items:center"><input id="kelasNama" placeholder="Nama Kelas, contoh: 7A" /><input id="kelasWali" placeholder="Wali Kelas" /><button class="btn" onclick="tambahKelas()">Tambah Kelas</button></div>
+          <div><button class="btn ghost" onclick="exportKelasCSV()">Export CSV</button></div>
+        </div>
+        <div style="margin-top:12px"><table id="tableKelas"><thead><tr><th>Kelas</th><th>Wali</th><th>Aksi</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="jadwal" style="margin-top:40px"><h2>Manajemen Jadwal Pelajaran</h2>
+      <div class="card" style="margin-top:12px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><select id="jadwalKelasSelect"><option value="7A">7A</option><option value="8A">8A</option><option value="9A">9A</option></select><input id="jadwalHari" placeholder="Hari (Senin)" /><input id="jadwalJam" placeholder="Jam (08:00-09:30)" /><input id="jadwalMapel" placeholder="Mata Pelajaran" /><button class="btn" onclick="tambahJadwal()">Tambah Jadwal</button></div>
+        <div style="margin-top:12px"><table id="tableJadwal"><thead><tr><th>Kelas</th><th>Hari</th><th>Jam</th><th>Mapel</th><th>Aksi</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="bank-soal" style="margin-top:40px"><h2>Manajemen Ujian CBT & Bank Soal</h2>
+      <div class="card" style="margin-top:12px">
+        <h4>Tambah Ujian / Upload Bank Soal</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px"><input id="ujianJudul" placeholder="Judul Ujian, contoh: UTS Semester 1" /><select id="ujianKelas"><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><input id="ujianTanggal" type="date" /><input id="ujianDurasi" placeholder="Durasi (menit)" /><input id="bankSoalFile" type="file" accept=".pdf,.docx,.zip" /><div style="display:flex;gap:8px;align-items:center"><button class="btn" onclick="tambahUjian()">Buat Ujian</button><button class="btn ghost" onclick="uploadBankSoal()">Upload Bank Soal</button></div></div>
+        <div style="margin-top:14px"><h4>Daftar Ujian</h4><table id="tableUjian"><thead><tr><th>Judul</th><th>Kelas</th><th>Tanggal</th><th>Durasi</th><th>Aksi</th></tr></thead><tbody></tbody></table></div>
+        <div style="margin-top:12px"><h4>Bank Soal (Uploaded)</h4><ul id="listBankSoal"></ul></div>
+      </div>
+    </section>
+
+    <section id="darkmode" style="margin-top:40px"><h2>Mode Tampilan</h2>
+      <div style="display:flex;gap:12px;align-items:center"><label class="small">Pilih Mode:</label><button class="btn" id="toggleDark">Toggle Dark / Light</button><div class="muted">Status: <span id="modeStatus">Light</span></div></div>
+    </section>
+
+    <section id="backend-versions" style="margin-top:40px"><h2>Versi Backend (Pilihan Implementasi)</h2>
+      <div class="card" style="margin-top:12px"><p class="small">Saya dapat buatkan versi backend lengkap (server + database) untuk salah satu pilihan berikut. Beri tahu pilihan Anda, dan saya akan buat struktur proyek, endpoint API, dan contoh implementasi untuk:</p>
+        <ul class="small"><li>✅ <strong>Laravel (disarankan)</strong></li><li>✅ <strong>CodeIgniter (Ringan)</strong></li><li>✅ <strong>Node.js + Express + Sequelize/TypeORM</strong></li></ul>
+        <div style="margin-top:12px;display:flex;gap:8px"><button class="btn" onclick="requestBackend('laravel')">Buat Struktur Laravel</button><button class="btn" onclick="requestBackend('codeigniter')">Buat Struktur CodeIgniter</button><button class="btn ghost" onclick="requestBackend('node')">Buat Struktur Node.js</button></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Modal Login (simple demo) -->
+  <div id="modalLogin" class="modal" style="display:none">
+    <div class="panel">
+      <h3>Masuk E-Learning</h3>
+      <div class="form-control"><label class="small">Email / NIS</label><input id="loginUser" placeholder="contoh: 2025xxxxx atau email@domain" /></div>
+      <div class="form-control"><label class="small">Kata Sandi</label><input id="loginPass" type="password" placeholder="••••••" /></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px"><button class="btn ghost" id="closeModal">Batal</button><button class="btn" id="doLogin">Masuk</button></div>
+    </div>
+  </div>
+
+  <!-- AUTH PAGES (inline, demo) -->
+  <style>
+    .auth-container {max-width:420px;margin:40px auto;padding:30px;background:rgba(255,255,255,0.12);backdrop-filter:blur(8px);border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,0.15)}
+    .auth-container h2{text-align:center;margin-bottom:20px}
+    .auth-container input{width:100%;padding:12px;margin:10px 0;border-radius:10px;border:1px solid #ccc}
+    .auth-btn{width:100%;padding:12px;border:none;border-radius:10px;margin-top:10px;cursor:pointer;font-size:16px;background:linear-gradient(45deg,#1a8cff,#39db7d);color:white}
+    .auth-link{text-align:center;margin-top:12px}
+    .auth-link a{color:#fff;text-decoration:underline;cursor:pointer}
+  </style>
+
+  <div id="loginPage" class="auth-container" style="display:none">
+    <h2>Masuk Akun</h2>
+    <input id="loginEmail" type="email" placeholder="Email" />
+    <input id="loginPassword" type="password" placeholder="Password" />
+    <button class="auth-btn" id="loginBtn">Masuk</button>
+    <div class="auth-link">Belum punya akun? <a id="linkToRegister">Daftar</a></div>
+  </div>
+
+  <div id="registerPage" class="auth-container" style="display:none">
+    <h2>Daftar Akun</h2>
+    <input id="regName" type="text" placeholder="Nama Lengkap" />
+    <input id="regEmail" type="email" placeholder="Email" />
+    <input id="regPassword" type="password" placeholder="Password" />
+    <select id="regRole" style="width:100%;padding:12px;border-radius:10px;margin-top:10px;border:1px solid #ccc"><option value="siswa">Siswa</option><option value="guru">Guru</option></select>
+    <button class="auth-btn" id="registerBtn">Buat Akun</button>
+    <div class="auth-link">Sudah punya akun? <a id="linkToLogin">Masuk</a></div>
+  </div>
+
+  <script>
+    // Centralized demo accounts array (declare ONCE)
+    const demoAccounts = [
+      { email: 'salamkarisma24@gmail.com', password: '123456', role: 'admin' }
+    ];
+
+    // Demo in-memory data stores
+    const gurus = [];
+    const siswas = [];
+    const kelasList = [];
+    const jadwals = [];
+    const ujianList = [];
+    const bankSoal = [];
+
+    // --- Utility render & CRUD functions ---
+    function renderTableGuru(){ const tbody=document.querySelector('#tableGuru tbody'); if(!tbody) return; tbody.innerHTML=''; gurus.forEach((g,i)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${g.nama}</td><td>${g.nip}</td><td>${g.mapel}</td><td><button class="btn ghost" onclick="hapusGuru(${i})">Hapus</button></td>`; tbody.appendChild(tr) }) }
+    function tambahGuru(){ const nama=document.getElementById('guruNama').value.trim(); const nip=document.getElementById('guruNip').value.trim(); const mapel=document.getElementById('guruMapel').value.trim(); if(!nama||!nip||!mapel){alert('Lengkapi form guru');return} gurus.push({nama,nip,mapel}); renderTableGuru(); document.getElementById('formGuru').reset(); }
+    function hapusGuru(i){ if(confirm('Hapus data guru ini?')){gurus.splice(i,1); renderTableGuru();} }
+    function batalFormGuru(){ document.getElementById('formGuru').reset(); }
+
+    function renderTableSiswa(){ const tbody=document.querySelector('#tableSiswa tbody'); if(!tbody) return; tbody.innerHTML=''; siswas.forEach((s,i)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${s.nama}</td><td>${s.nis}</td><td>${s.kelas}</td><td><button class="btn ghost" onclick="hapusSiswa(${i})">Hapus</button></td>`; tbody.appendChild(tr) }) }
+    function tambahSiswa(){ const nama=document.getElementById('siswaNama').value.trim(); const nis=document.getElementById('siswaNis').value.trim(); const kelas=document.getElementById('siswaKelas').value; if(!nama||!nis){alert('Lengkapi form siswa');return} siswas.push({nama,nis,kelas}); renderTableSiswa(); document.getElementById('formSiswa').reset(); }
+    function hapusSiswa(i){ if(confirm('Hapus data siswa ini?')){siswas.splice(i,1); renderTableSiswa();} }
+    function batalFormSiswa(){ document.getElementById('formSiswa').reset(); }
+
+    function renderKelas(){ const tbody=document.querySelector('#tableKelas tbody'); if(!tbody) return; tbody.innerHTML=''; kelasList.forEach((k,i)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${k.nama}</td><td>${k.wali}</td><td><button class="btn ghost" onclick="hapusKelas(${i})">Hapus</button></td>`; tbody.appendChild(tr) }) }
+    function tambahKelas(){ const nama=document.getElementById('kelasNama').value.trim(); const wali=document.getElementById('kelasWali').value.trim(); if(!nama||!wali){alert('Isi nama kelas dan wali');return} kelasList.push({nama,wali}); renderKelas(); document.getElementById('kelasNama').value=''; document.getElementById('kelasWali').value=''; }
+    function hapusKelas(i){ if(confirm('Hapus kelas?')){kelasList.splice(i,1); renderKelas();} }
+    function exportKelasCSV(){ if(kelasList.length===0){alert('Tidak ada data');return} const csv=[['Kelas','Wali'],...kelasList.map(k=>[k.nama,k.wali])].map(r=>r.join(',')); const blob=new Blob([csv.join('\n')],{type:'text/csv'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='kelas.csv'; a.click(); URL.revokeObjectURL(url); }
+
+    function renderJadwal(){ const tbody=document.querySelector('#tableJadwal tbody'); if(!tbody) return; tbody.innerHTML=''; jadwals.forEach((j,i)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${j.kelas}</td><td>${j.hari}</td><td>${j.jam}</td><td>${j.mapel}</td><td><button class="btn ghost" onclick="hapusJadwal(${i})">Hapus</button></td>`; tbody.appendChild(tr) }) }
+    function tambahJadwal(){ const kelas=document.getElementById('jadwalKelasSelect').value; const hari=document.getElementById('jadwalHari').value.trim(); const jam=document.getElementById('jadwalJam').value.trim(); const mapel=document.getElementById('jadwalMapel').value.trim(); if(!hari||!jam||!mapel){alert('Lengkapi form jadwal');return} jadwals.push({kelas,hari,jam,mapel}); renderJadwal(); document.getElementById('jadwalHari').value=''; document.getElementById('jadwalJam').value=''; document.getElementById('jadwalMapel').value=''; }
+    function hapusJadwal(i){ if(confirm('Hapus jadwal?')){jadwals.splice(i,1); renderJadwal();} }
+
+    function renderUjian(){ const tbody=document.querySelector('#tableUjian tbody'); if(!tbody) return; tbody.innerHTML=''; ujianList.forEach((u,i)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${u.judul}</td><td>${u.kelas}</td><td>${u.tanggal}</td><td>${u.durasi} mnt</td><td><button class="btn ghost" onclick="hapusUjian(${i})">Hapus</button></td>`; tbody.appendChild(tr) }) }
+    function tambahUjian(){ const judul=document.getElementById('ujianJudul').value.trim(); const kelas=document.getElementById('ujianKelas').value; const tanggal=document.getElementById('ujianTanggal').value; const durasi=document.getElementById('ujianDurasi').value.trim(); if(!judul||!tanggal||!durasi){alert('Lengkapi data ujian');return} ujianList.push({judul,kelas,tanggal,durasi}); renderUjian(); document.getElementById('ujianJudul').value=''; document.getElementById('ujianTanggal').value=''; document.getElementById('ujianDurasi').value=''; }
+    function hapusUjian(i){ if(confirm('Hapus ujian?')){ujianList.splice(i,1); renderUjian();} }
+
+    function uploadBankSoal(){ const f=document.getElementById('bankSoalFile').files[0]; if(!f){alert('Pilih file bank soal');return} bankSoal.push({name:f.name,size:f.size,date:new Date().toLocaleString()}); renderBankSoal(); document.getElementById('bankSoalFile').value=''; }
+    function renderBankSoal(){ const ul=document.getElementById('listBankSoal'); if(!ul) return; ul.innerHTML=''; bankSoal.forEach((b,i)=>{ const li=document.createElement('li'); li.innerHTML=`${b.name} (${Math.round(b.size/1024)} KB) — <button class="btn ghost" onclick="downloadBankSoal(${i})">Download</button> <button class="btn ghost" onclick="hapusBankSoal(${i})">Hapus</button>`; ul.appendChild(li) }) }
+    function downloadBankSoal(i){ if(!bankSoal[i]){alert('File tidak ditemukan');return} alert('Untuk demo: file tersedia setelah integrasi backend. Nama file: '+bankSoal[i].name) }
+    function hapusBankSoal(i){ if(confirm('Hapus file?')){bankSoal.splice(i,1); renderBankSoal();} }
+
+    // Dark mode
+    function applyMode(mode){ if(mode==='dark'){ document.documentElement.style.setProperty('--accent-1','#064e3b'); document.documentElement.style.setProperty('--accent-2','#065f46'); document.body.style.background='linear-gradient(120deg,var(--accent-2) 0%, var(--accent-1) 40%, #013220 60%, #031321 100%)'; document.getElementById('modeStatus').innerText='Dark'; } else { document.documentElement.style.setProperty('--accent-1','#0ea5a6'); document.documentElement.style.setProperty('--accent-2','#06b6d4'); document.body.style.background='linear-gradient(120deg,var(--accent-2) 0%, var(--accent-1) 40%, #0ea5a6 60%, #071330 100%)'; document.getElementById('modeStatus').innerText='Light'; } localStorage.setItem('mts_mode',mode); }
+    const toggleBtn = document.getElementById('toggleDark'); if(toggleBtn) toggleBtn.addEventListener('click', ()=>{ const cur=localStorage.getItem('mts_mode')||'light'; applyMode(cur==='light'?'dark':'light'); });
+    applyMode(localStorage.getItem('mts_mode')||'light');
+
+    function requestBackend(type){ alert('Akan membuat struktur proyek '+type+". Saya akan menyiapkan file: skelton projek, database migrations, model, controller, routes, dan contoh endpoint API. Sebutkan jika mau Laravel, CodeIgniter, atau Node.js."); }
+
+    // file upload for ujian (demo) - adds downloadable placeholder link
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const uploadBtn = document.getElementById('btnUploadSoal');
+      if(uploadBtn){ uploadBtn.addEventListener('click', ()=>{ const f=document.getElementById('fileSoal').files[0]; if(!f){ alert('Pilih file soal terlebih dahulu'); return } bankSoal.push({name:f.name,size:f.size,date:new Date().toLocaleString(),blob:f}); renderBankSoal(); const dl=document.getElementById('downloadList'); if(dl){ const li=document.createElement('li'); const a=document.createElement('a'); a.href='#'; a.textContent=f.name+' (uploaded)'; a.addEventListener('click',(e)=>{ e.preventDefault(); alert('Untuk demo: file dapat diunduh setelah integrasi backend. Nama: '+f.name); }); li.appendChild(a); dl.appendChild(li); } document.getElementById('fileSoal').value=''; }); }
+
+      // Hook up auth UI links
+      const openLogin = document.getElementById('openLogin'); if(openLogin){ openLogin.addEventListener('click',(e)=>{ e.preventDefault(); document.getElementById('loginPage').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }); }
+      const ctaEnter = document.getElementById('ctaEnter'); if(ctaEnter) ctaEnter.addEventListener('click', ()=>{ document.getElementById('loginPage').style.display='block' });
+      const ctaRegister = document.getElementById('ctaRegister'); if(ctaRegister) ctaRegister.addEventListener('click', ()=>{ document.getElementById('registerPage').style.display='block' });
+
+      // Auth page links
+      const linkToRegister = document.getElementById('linkToRegister'); const linkToLogin = document.getElementById('linkToLogin'); if(linkToRegister) linkToRegister.addEventListener('click', ()=>{ document.getElementById('loginPage').style.display='none'; document.getElementById('registerPage').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }); if(linkToLogin) linkToLogin.addEventListener('click', ()=>{ document.getElementById('registerPage').style.display='none'; document.getElementById('loginPage').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); });
+
+      // Login & Register button handlers
+      const loginBtn = document.getElementById('loginBtn'); if(loginBtn) loginBtn.addEventListener('click', doLogin);
+      const registerBtn = document.getElementById('registerBtn'); if(registerBtn) registerBtn.addEventListener('click', doRegister);
+
+      // initial renders
+      renderTableGuru(); renderTableSiswa(); renderKelas(); renderJadwal(); renderUjian(); renderBankSoal();
+    });
+
+    // --- Auth functions ---
+    function doLogin(){ const email=document.getElementById('loginEmail').value.trim(); const pass=document.getElementById('loginPassword').value.trim(); const found = demoAccounts.find(a=>a.email===email && a.password===pass); if(!found){ alert('Email atau password salah!'); return } alert('Login berhasil sebagai '+found.role.toUpperCase()); // redirect demo
+      location.hash = '#admin-full'; document.getElementById('loginPage').style.display='none'; }
+
+    function doRegister(){ const name=document.getElementById('regName').value.trim(); const email=document.getElementById('regEmail').value.trim(); const pass=document.getElementById('regPassword').value.trim(); const role=document.getElementById('regRole').value; if(!name||!email||!pass){ alert('Semua field wajib diisi!'); return } const exist = demoAccounts.find(a=>a.email===email); if(exist){ alert('Email sudah terdaftar!'); return } demoAccounts.push({email,password:pass,role}); alert('Pendaftaran berhasil! Silakan masuk.'); document.getElementById('registerPage').style.display='none'; document.getElementById('loginPage').style.display='block'; }
+  </script>
+
+</body>
+</html>
